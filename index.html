@@ -3,8 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Mind Maps</title>
+    <link rel="stylesheet" type="text/css" href="style/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+    <link rel="stylesheet" type="text/css" href="style/segoe-icons.css">
+    <link>
 </head>
 <body>
+<div class="container">
+    <div class="row">
+        <header class="col-12">
+            <h1>Mind Maps</h1>
+        </header>
+    </div>
+</div>
+<div class="app-window container">
+    <div class="row">
+        <section class="reserved col-2">
+            <div class="item">
+                <p>Add Item</p>
+            </div>
+        </section>
+        <section class="main-window col-6">
+            <div class="mm-head">
+                <p>Mind Map Parent Item</p>
+            </div>
+        </section>
+        <section class="description-window col-4">
+            <input class="form-control" type="text" placeholder="Title">
+            <textarea class="form-control" placeholder="Enter Description"></textarea>
+        </section>
+    </div>
 
+</div>
+<script type="text/javascript" src="js/extended.js"></script>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/knockout-3.5.0.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script>
+    $(".item").draggable({
+        addClasses: false
+    });
+</script>
 </body>
 </html>

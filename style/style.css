@@ -1,0 +1,57 @@
+@font-face {
+    font-family: "Segoe UI";
+    src: url("../fonts/segoe-ui-normal.ttf");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Segoe UI";
+    src: url("../fonts/segoe-ui-bold.ttf");
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "Segoe UI";
+    src: url("../fonts/segoe-ui-italic.ttf");
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Segoe UI";
+    src: url("../fonts/segoe-ui-light.ttf");
+    font-weight: 100;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #E9E9E9;
+    font-family: "Segoe UI";
+    font-size: 1.2em;
+    font-weight: 100;
+    color: #272727;
+}
+
+.reserved, .main-window, .description-window {
+    border: 1px solid #454545;
+}
+
+.item {
+    z-index: 10;
+    border: 1px solid #999999;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.item p {
+    cursor: default;
+}
+
+.mm-head {
+    position: relative;
+    top: 50%;
+    left: 50%;
+}

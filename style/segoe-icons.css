@@ -1,0 +1,35 @@
+/*
+*   Basic Settings
+*/
+
+@font-face {
+    font-family: "Segoe MDL2 Assets";
+    src: url("../fonts/segmdl2.ttf");
+}
+
+.my-i {
+    font-family: "Segoe MDL2 Assets";
+    -moz-osx-font-smoothing:grayscale;
+    -webkit-font-smoothing:antialiased;
+    display:inline-block;
+    font-style:normal;
+    font-variant:normal;
+    text-rendering:auto;
+    line-height:1
+}
+
+/*
+*   Colors
+*/
+
+.c-cadetblue {
+    color: #5F9EA0;
+}
+
+/*
+*   Icons
+*/
+
+.i-arrow-bottom:before {
+    content: "\E70D";
+}
