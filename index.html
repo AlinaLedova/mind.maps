@@ -42,13 +42,36 @@
 <script type="text/javascript" src="js/knockout-3.5.0.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 <script>
+    console.clear();
+
     $(".item").draggable({
-        addClasses: false
+        addClasses: false,
+        appendTo: ".main-window",
+        connectToSortable: ".main-window",
+        start: function(event, ui)
+        {
+            console.log(ui);
+        }
     });
 
     $(".main-window").droppable({
-        accept: ".item"
+        accept: ".item",
+        drop: function (event, ui)
+        {
+            let target = event.target;
+            target.setAttribute("style", "background-color:#000000");
+            let tag = ui.draggable[0];
+            //console.log(tag);
+        },
+        out: function (event, ui)
+        {
+            let target = event.target;
+            target.removeAttribute("style");
+            console.log("Out: ", event);
+        }
     });
+
+
 </script>
 </body>
 </html>
