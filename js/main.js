@@ -35,6 +35,11 @@ class MainItem extends Item
         this.parentItem = ko.observable(parent);
         this.childItems = ko.observableArray([]);
     }
+
+    makeDraggable()
+    {
+        $(".item").draggable({});
+    }
 }
 
 class ParentItem extends Item
@@ -78,13 +83,35 @@ ko.bindingHandlers.dropItem = {
         let value = ko.unwrap(valueAccessor());
 
         $(".item").draggable({
-            appendTo: ".main-window"
+            helper: "original",
+            connectToSortable: false
+
         });
+
+        $(".item-cloned").draggable({
+            helper: "clone",
+            appendTo: "body",
+            connectToSortable: ".main-window",
+        });
+
+
 
         $(".main-window").droppable({
+            drop: function(event, ui)
+            {
+                if (!ui.draggable[0].getAttribute("class").search("item-cloned"))
+                {
+                    value.childItems.push(new MainItem(value.name()));
+                }
 
+                $(".item").draggable({
+                    helper: "original"
+                });
+
+                console.log("Drop Item: ", ui);
+            }
         });
-        console.log("Drop Item: ");
+
     }
 };
 

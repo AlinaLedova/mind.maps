@@ -39,7 +39,7 @@ body {
     border: 1px solid #454545;
 }
 
-.item {
+.item, .item-cloned {
     z-index: 10;
     border: 1px solid #999999;
     border-radius: 5px;
@@ -56,6 +56,6 @@ body {
     left: 20%;
 }
 
-.mm-head .parent {
+.mm-head .parent, .mm-head .children {
     width:50%;
 }
