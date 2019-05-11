@@ -13,7 +13,7 @@
 <div class="container">
     <div class="row">
         <header class="col-12">
-            <h1>Mind Maps</h1>
+            <h1><span data-bind="text: description()[0].appName"></span> <span class="small">version: </span><span data-bind="text: description()[1].appVersion"></span></h1>
         </header>
     </div>
 </div>
@@ -21,17 +21,17 @@
     <div class="row">
         <section class="reserved col-2">
             <div class="item">
-                <p>Add Item</p>
+                <p class="c-cadetblue">Add Item</p>
             </div>
         </section>
         <section class="main-window col-6">
             <div class="mm-head">
-                <p>Mind Map Parent Item</p>
+                <div class="item parent"><p data-bind="text: parentItem.name, click: ()=>edit()">Mind Map Parent Item</p></div>
             </div>
         </section>
         <section class="description-window col-4">
-            <input class="form-control" type="text" placeholder="Title">
-            <textarea class="form-control" placeholder="Enter Description"></textarea>
+            <input class="form-control" type="text" placeholder="Title" data-bind="textInput: parentItem.name, value: parentItem.name">
+            <textarea class="form-control" placeholder="Enter Description" data-bind=""></textarea>
         </section>
     </div>
 </div>
@@ -44,7 +44,7 @@
 <script>
     console.clear();
 
-    $(".item").draggable({
+    /*$(".item").draggable({
         addClasses: false,
         appendTo: ".main-window",
         connectToSortable: ".main-window",
@@ -69,9 +69,10 @@
             target.removeAttribute("style");
             console.log("Out: ", event);
         }
-    });
+    });*/
 
-
+    let str = JSON.stringify(mindMap);
+    console.log(str);
 </script>
 </body>
 </html>
