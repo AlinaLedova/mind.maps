@@ -33,3 +33,7 @@
 .i-arrow-bottom:before {
     content: "\E70D";
 }
+
+.i-icon-plus:before {
+    content: "\E710";
+}

@@ -17,16 +17,21 @@
         </header>
     </div>
 </div>
+<button class="btn btn-outline-success" data-bind="click: ()=>parentItem.addItem()"><i class="my-i i-icon-plus"></i></button>
 <div class="app-window container">
     <div class="row">
         <section class="reserved col-2">
             <div class="item">
                 <p class="c-cadetblue">Add Item</p>
             </div>
+            <button class="btn btn-outline-success" data-bind="click: ()=>parentItem.addItem()"><i class="my-i i-icon-plus"></i></button>
         </section>
-        <section class="main-window col-6">
+        <section class="main-window col-6" data-bind="dropItem: parentItem">
             <div class="mm-head">
-                <div class="item parent"><p data-bind="text: parentItem.name, click: ()=>edit()">Mind Map Parent Item</p></div>
+                <div class="item parent"><p data-bind="text: parentItem.name">Mind Map Parent Item</p></div>
+                <div class="children" data-bind="foreach: { data: parentItem.childItems, as: 'childItem' }">
+                    <div class="item children"><p data-bind="text: childItem.name"></p></div>
+                </div>
             </div>
         </section>
         <section class="description-window col-4">

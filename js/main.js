@@ -27,6 +27,16 @@ class Item
     }
 }
 
+class MainItem extends Item
+{
+    constructor(parent)
+    {
+        super();
+        this.parentItem = ko.observable(parent);
+        this.childItems = ko.observableArray([]);
+    }
+}
+
 class ParentItem extends Item
 {
     constructor()
@@ -34,15 +44,11 @@ class ParentItem extends Item
         super();
         this.childItems = ko.observableArray([]);
     }
-}
 
-class MainItem extends Item
-{
-    constructor()
+    addItem()
     {
-        super();
-        this.parentItem = ko.observable(String.Empty);
-        this.childItems = ko.observableArray([]);
+        this.childItems.push(new MainItem(this.name()));
+        console.log(this.childItems()[0].parentItem());
     }
 }
 
@@ -52,20 +58,6 @@ class MindMap
     {
         this.description = ko.observableArray(description);
         this.parentItem = new ParentItem();
-        this.editing = ko.observable(false);
-    }
-
-    edit()
-    {
-        if (!this.editing)
-        {
-            this.editing = true;
-        }
-        else
-        {
-            this.editing = false;
-        }
-        console.log(this.editing);
     }
 
     toJSON()
@@ -78,6 +70,23 @@ class MindMap
         return json;
     }
 }
+
+
+ko.bindingHandlers.dropItem = {
+    update: function(element, valueAccessor)
+    {
+        let value = ko.unwrap(valueAccessor());
+
+        $(".item").draggable({
+            appendTo: ".main-window"
+        });
+
+        $(".main-window").droppable({
+
+        });
+        console.log("Drop Item: ");
+    }
+};
 
 
 /******************************
