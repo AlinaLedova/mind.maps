@@ -5,8 +5,6 @@ let description = [
     { appVersion: "0.0.1" }
 ];
 
-console.log(description);
-
 /*** Configuration ***/
 
 const DefaultParentName = "Item";
