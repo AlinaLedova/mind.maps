@@ -26,20 +26,36 @@
             </div>
             <button class="btn btn-outline-success" data-bind="click: ()=>parentItem.addItem()"><i class="my-i i-icon-plus"></i></button>
         </section>
-        <section class="main-window col-6" data-bind="dropItem: parentItem">
-            <div class="mm-head">
-                <div class="item parent"><p data-bind="text: parentItem.name">Mind Map Parent Item</p></div>
-                <div class="children" data-bind="foreach: { data: parentItem.childItems, as: 'childItem' }">
-                    <div class="item children"><p data-bind="text: childItem.name"></p></div>
-                </div>
-            </div>
+        <section class="main-window col-6" data-bind='component: "mind-map"'>
+
         </section>
         <section class="description-window col-4">
-            <input class="form-control" type="text" placeholder="Title" data-bind="textInput: parentItem.name, value: parentItem.name">
+            <input class="form-control" type="text" placeholder="Title" data-bind="">
             <textarea class="form-control" placeholder="Enter Description" data-bind=""></textarea>
         </section>
     </div>
 </div>
+
+<template id="mind-map-tpl">
+    <div class="mm-body">
+        <h1 data-bind="text: console.log('MMTPL: ', JSON.stringify($data));"></h1>
+    </div>
+</template>
+
+<template id="parent-item-tpl">
+    <div class="parent">
+        <p data-bind="text: parent().name()">Here Name</p>
+    </div>
+    <button class="btn btn-outline-danger" data-bind="click: ()=>parent().addItem(), click: logDebug('CLick: ', parent().childItems());"><i class="my-i i-icon-plus"></i></button>
+    <children params="children: parent().childItems()"></children>
+</template>
+
+<template id="children-tpl">
+    <div class="child">
+        <p data-bind="text: console.log('CHILDREN: ')">Child</p>
+    </div>
+</template>
+
 <script type="text/javascript" src="js/extended.js"></script>
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>

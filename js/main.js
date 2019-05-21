@@ -2,12 +2,20 @@
 
 let description = [
     { appName: "Mind Maps" },
-    { appVersion: "0.0.1" }
+    { appVersion: "0.0.2" }
 ];
 
 /*** Configuration ***/
 
+let debugMode = true;
+
 const DefaultParentName = "Item";
+
+function logDebug()
+{
+    if(debugMode)
+        console.log(...arguments);
+}
 
 /*********************
  *
@@ -51,7 +59,8 @@ class ParentItem extends Item
     addItem()
     {
         this.childItems.push(new MainItem(this.name()));
-        console.log(this.childItems()[0].parentItem());
+        logDebug(this.childItems());
+        //console.log(this.childItems()[0].parentItem());
     }
 }
 
@@ -74,45 +83,26 @@ class MindMap
     }
 }
 
+ko.components.register("mind-map", {
+    viewModel: { instance: new MindMap() },
+    template: { element: "mind-map-tpl" }
+});
 
-ko.bindingHandlers.dropItem = {
-    update: function(element, valueAccessor)
-    {
-        let value = ko.unwrap(valueAccessor());
+ko.components.register('parent-item', {
+    viewModel: function () {
+        this.parent = ko.observable(new ParentItem());
+        this.parent().name("New Parent");
+    },
+    template: { element: "parent-item-tpl" }
+});
 
-        $(".item").draggable({
-            helper: "original",
-            connectToSortable: false
-
-        });
-
-        $(".item-cloned").draggable({
-            helper: "clone",
-            appendTo: "body",
-            connectToSortable: ".main-window",
-        });
-
-
-
-        $(".main-window").droppable({
-            drop: function(event, ui)
-            {
-                if (!ui.draggable[0].getAttribute("class").search("item-cloned"))
-                {
-                    value.childItems.push(new MainItem(value.name()));
-                }
-
-                $(".item").draggable({
-                    helper: "original"
-                });
-
-                console.log("Drop Item: ", ui);
-            }
-        });
-
-    }
-};
-
+ko.components.register('children', {
+    viewModel: function (params) {
+        this.children = ko.observable(params);
+        //children = params;
+    },
+    template: { element: "children-tpl" }
+});
 
 /******************************
 *   Start Program
