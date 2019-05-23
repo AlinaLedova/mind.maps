@@ -37,13 +37,31 @@
 </div>
 
 <template id="mind-map-tpl">
+    <div class="mm-head">
+        <legend class="">Parent: <span data-bind="text: parentItem.name()"></span></legend>
+    </div>
     <div class="mm-body">
+        <div class="parent-item">
+            <div class="parent">
+                <span data-bind="visible: parentItem.title()"><span data-bind="text: parentItem.title()"></span></span>
+                <span data-bind="hidden: parentItem.title()">Parent Item</span>
+            </div>
+        </div>
+        <div class="children" data-bind="foreach: { data: parentItem.childItems(), as: 'child' }">
+            <div class="child-item">
+                <span data-bind="visible: child.name(), text: child.name()"></span>
+            </div>
+        </div>
         <h1 data-bind="text: console.log('MMTPL: ', JSON.stringify($data));"></h1>
+    </div>
+    <div class="mm-footer">
+        <button class="btn btn-outline-danger" data-bind="click: ()=>parentItem.addItem()"><i class="my-i i-icon-plus"></i></button>
+        <p><span data-bind="text: description()[0].appName"></span> ver.: <span data-bind="text: description()[1].appVersion"></span></p>
     </div>
 </template>
 
 <template id="parent-item-tpl">
-    <div class="parent">
+    <div class="parent-item">
         <p data-bind="text: parent().name()">Here Name</p>
     </div>
     <button class="btn btn-outline-danger" data-bind="click: ()=>parent().addItem(), click: logDebug('CLick: ', parent().childItems());"><i class="my-i i-icon-plus"></i></button>
@@ -91,6 +109,12 @@
             console.log("Out: ", event);
         }
     });*/
+
+    $(document).ready(function(){
+        $(".parent-item").selectable();
+        $(".children").selectable();
+    });
+
 
     let str = JSON.stringify(mindMap);
     console.log(str);
