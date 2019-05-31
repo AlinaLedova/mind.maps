@@ -1,5 +1,7 @@
 /*** Definitions ***/
 
+let dataName = "data";
+
 let description = [
     { appName: "Mind Maps" },
     { appVersion: "0.0.2" }
@@ -7,9 +9,10 @@ let description = [
 
 /*** Configuration ***/
 
-let debugMode = true;
+const debugMode = true;
 
 const DefaultParentName = "Item";
+const DefaultFileType = "json";
 
 function logDebug()
 {
@@ -21,6 +24,26 @@ function logDebug()
  *
  ********************/
 
+class DataItem
+{
+    constructor(name)
+    {
+        this.name = name;
+        this.type = DefaultFileType;
+        this.data = String.Empty;
+        this.getJson(this.name);
+    }
+
+    getJson(name)
+    {
+        fetch(`${name}.${this.type}`).then(async (response) => {
+            if (!response.ok) throw (`Response not OK: , ${response.status}, ${response.statusText}`);
+            this.data = await response.json();
+            logDebug("GET JSON: ", this.data);
+        });
+    }
+}
+
 class Item
 {
     constructor()
@@ -30,7 +53,22 @@ class Item
         this.description = ko.observable(String.Empty);
         this.positionX = ko.observable(0);
         this.positionY = ko.observable(0);
+        this.childItems = ko.observableArray([]);
+        //this.makeSelectable();
     }
+
+    addChildItem()
+    {
+        this.childItems.push(new MainItem(this.name()))
+    }
+
+    /*makeSelectable()
+    {
+        $(document).ready(function () {
+            $(".parent-item").selectable();
+            $(".children").selectable();
+        });
+    }*/
 }
 
 class MainItem extends Item
@@ -39,7 +77,7 @@ class MainItem extends Item
     {
         super();
         this.parentItem = ko.observable(parent);
-        this.childItems = ko.observableArray([]);
+        //this.makeSelectable();
     }
 
     makeDraggable()
@@ -53,14 +91,7 @@ class ParentItem extends Item
     constructor()
     {
         super();
-        this.childItems = ko.observableArray([]);
-    }
-
-    addItem()
-    {
-        this.childItems.push(new MainItem(this.name()));
-        logDebug(this.childItems());
-        //console.log(this.childItems()[0].parentItem());
+        //this.makeSelectable();
     }
 }
 
@@ -70,6 +101,14 @@ class MindMap
     {
         this.description = ko.observableArray(description);
         this.parentItem = new ParentItem();
+    }
+
+    makeSelectable()
+    {
+        $(document).ready(function () {
+            $(".parent-item").selectable();
+            $(".children").selectable();
+        });
     }
 
     toJSON()
@@ -88,7 +127,7 @@ ko.components.register("mind-map", {
     template: { element: "mind-map-tpl" }
 });
 
-ko.components.register('parent-item', {
+/*ko.components.register('parent-item', {
     viewModel: function () {
         this.parent = ko.observable(new ParentItem());
         this.parent().name("New Parent");
@@ -102,7 +141,7 @@ ko.components.register('children', {
         //children = params;
     },
     template: { element: "children-tpl" }
-});
+});*/
 
 /******************************
 *   Start Program

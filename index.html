@@ -17,14 +17,12 @@
         </header>
     </div>
 </div>
-<button class="btn btn-outline-success" data-bind="click: ()=>parentItem.addItem()"><i class="my-i i-icon-plus"></i></button>
 <div class="app-window container">
     <div class="row">
         <section class="reserved col-2">
             <div class="item-cloned">
                 <p class="c-cadetblue">Add Item</p>
             </div>
-            <button class="btn btn-outline-success" data-bind="click: ()=>parentItem.addItem()"><i class="my-i i-icon-plus"></i></button>
         </section>
         <section class="main-window col-6" data-bind='component: "mind-map"'>
 
@@ -34,11 +32,12 @@
             <textarea class="form-control" placeholder="Enter Description" data-bind=""></textarea>
         </section>
     </div>
+    <button onclick="jsonData.getJson('data')">Open</button>
 </div>
 
 <template id="mind-map-tpl">
     <div class="mm-head">
-        <legend class="">Parent: <span data-bind="text: parentItem.name()"></span></legend>
+        <legend class="">Parent: <span data-bind="text: parentItem.name(), event: { onload: makeSelectable() }"></span></legend>
     </div>
     <div class="mm-body">
         <div class="parent-item">
@@ -52,14 +51,14 @@
                 <span data-bind="visible: child.name(), text: child.name()"></span>
             </div>
         </div>
-        <h1 data-bind="text: console.log('MMTPL: ', JSON.stringify($data));"></h1>
     </div>
     <div class="mm-footer">
-        <button class="btn btn-outline-danger" data-bind="click: ()=>parentItem.addItem()"><i class="my-i i-icon-plus"></i></button>
+        <button class="btn btn-outline-danger" data-bind="click: ()=>parentItem.addChildItem()"><i class="my-i i-icon-plus"></i></button>
         <p><span data-bind="text: description()[0].appName"></span> ver.: <span data-bind="text: description()[1].appVersion"></span></p>
     </div>
 </template>
 
+<!--
 <template id="parent-item-tpl">
     <div class="parent-item">
         <p data-bind="text: parent().name()">Here Name</p>
@@ -73,7 +72,7 @@
         <p data-bind="text: console.log('CHILDREN: ')">Child</p>
     </div>
 </template>
-
+-->
 <script type="text/javascript" src="js/extended.js"></script>
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
@@ -110,14 +109,10 @@
         }
     });*/
 
-    $(document).ready(function(){
-        $(".parent-item").selectable();
-        $(".children").selectable();
-    });
+    let jsonData = new DataItem("data");
+    //logDebug("JSON DATA: ", jsonData);
 
 
-    let str = JSON.stringify(mindMap);
-    console.log(str);
 </script>
 </body>
 </html>
