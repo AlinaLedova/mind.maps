@@ -13,38 +13,65 @@
 <div class="container">
     <div class="row">
         <header class="col-12">
-            <h1><span data-bind="text: description()[0].appName"></span> <span class="small">version: </span><span data-bind="text: description()[1].appVersion"></span></h1>
+            <h1 id="head"><span data-bind="text: description()[0].appName"></span> <span class="small">version: </span><span data-bind="text: description()[1].appVersion"></span></h1>
         </header>
     </div>
 </div>
 <div class="app-window container">
+    <!-- just idea
+    <input type="file" name="newFile" id="file">-->
     <div class="row">
         <section class="reserved col-2">
             <div class="item-cloned">
                 <p class="c-cadetblue">Add Item</p>
             </div>
         </section>
-        <section class="main-window col-6" data-bind='component: "mind-map"'>
-
-        </section>
-        <section class="description-window col-4">
-            <input class="form-control" type="text" placeholder="Title" data-bind="">
-            <textarea class="form-control" placeholder="Enter Description" data-bind=""></textarea>
+        <section class="main-window col-6">
+            <div class="parent-item">
+                <p data-bind="text: parentItem.name()"></p>
+                <button class="btn btn-outline-danger" data-bind="click: ()=>parentItem.addChildItem()"><i class="my-i i-icon-plus"></i></button>
+            </div>
+            <div data-bind="foreach: { data: parentItem.childItems(), as: 'child' }">
+                <p data-bind="text: child.name()"></p>
+            </div>
         </section>
     </div>
     <button onclick="jsonData.getJson('data')">Open</button>
 </div>
 
+<!--
+<div class="container" data-bind="component: {
+    name: 'mm',
+    params: {
+        data: $data,
+        vm: 'firstModel' } }"></div>
+
+<template id="mm-tpl">
+    <h1>MM TPL</h1>
+    <hr/>
+        <div class="parent-item" data-bind="component: {
+            name: 'mm',
+            params: {
+                data: item.parentItem,
+                vm: 'secondModel' }
+            }"></div>
+    <hr/>
+</template>
+-->
+
 <template id="mind-map-tpl">
     <div class="mm-head">
-        <legend class="">Parent: <span data-bind="text: parentItem.name(), event: { onload: makeSelectable() }"></span></legend>
+        <legend class="">Parent: <span data-bind="text: parentItem.name(), event: { onload: parentItem.makeSelectable() }"></span></legend>
     </div>
     <div class="mm-body">
-        <div class="parent-item">
-            <div class="parent">
+        <div class="parent-item" data-bind="component: {
+            name: 'parent-item',
+            params: { item: parentItem }
+         }">
+            <!--<div class="parent">
                 <span data-bind="visible: parentItem.title()"><span data-bind="text: parentItem.title()"></span></span>
                 <span data-bind="hidden: parentItem.title()">Parent Item</span>
-            </div>
+            </div>-->
         </div>
         <div class="children" data-bind="foreach: { data: parentItem.childItems(), as: 'child' }">
             <div class="child-item">
@@ -53,20 +80,19 @@
         </div>
     </div>
     <div class="mm-footer">
-        <button class="btn btn-outline-danger" data-bind="click: ()=>parentItem.addChildItem()"><i class="my-i i-icon-plus"></i></button>
+        <button class="btn btn-outline-danger" data-bind="click: ()=>parentItem.addChildItem(), event: { click: parentItem.makeSelectable() }"><i class="my-i i-icon-plus"></i></button>
         <p><span data-bind="text: description()[0].appName"></span> ver.: <span data-bind="text: description()[1].appVersion"></span></p>
     </div>
 </template>
 
-<!--
-<template id="parent-item-tpl">
-    <div class="parent-item">
-        <p data-bind="text: parent().name()">Here Name</p>
-    </div>
-    <button class="btn btn-outline-danger" data-bind="click: ()=>parent().addItem(), click: logDebug('CLick: ', parent().childItems());"><i class="my-i i-icon-plus"></i></button>
-    <children params="children: parent().childItems()"></children>
-</template>
 
+<template id="parent-item-tpl">
+    <div class="parent">
+        <span data-bind="visible: parent.title()"><span data-bind="text: parent.title()"></span></span>
+        <span data-bind="hidden: parent.title()">Parent Item</span>
+    </div>
+</template>
+<!--
 <template id="children-tpl">
     <div class="child">
         <p data-bind="text: console.log('CHILDREN: ')">Child</p>
@@ -111,7 +137,6 @@
 
     let jsonData = new DataItem("data");
     //logDebug("JSON DATA: ", jsonData);
-
 
 </script>
 </body>

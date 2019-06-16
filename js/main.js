@@ -4,7 +4,7 @@ let dataName = "data";
 
 let description = [
     { appName: "Mind Maps" },
-    { appVersion: "0.0.2" }
+    { appVersion: "0.0.3" }
 ];
 
 /*** Configuration ***/
@@ -39,8 +39,13 @@ class DataItem
         fetch(`${name}.${this.type}`).then(async (response) => {
             if (!response.ok) throw (`Response not OK: , ${response.status}, ${response.statusText}`);
             this.data = await response.json();
-            logDebug("GET JSON: ", this.data);
+            //logDebug("GET JSON: ", this.data);
         });
+    }
+
+    updateJson()
+    {
+
     }
 }
 
@@ -54,61 +59,46 @@ class Item
         this.positionX = ko.observable(0);
         this.positionY = ko.observable(0);
         this.childItems = ko.observableArray([]);
-        //this.makeSelectable();
+        this.makeSelectable();
     }
 
     addChildItem()
     {
-        this.childItems.push(new MainItem(this.name()))
+        this.childItems.push(new Item());
     }
 
-    /*makeSelectable()
+    makeSelectable()
     {
-        $(document).ready(function () {
-            $(".parent-item").selectable();
-            $(".children").selectable();
+        // need find event except selected
+        $(".parent-item").selectable({
+            selected: function (event, ui) {
+                let children = document.getElementsByClassName("child-item");
+                logDebug(event, ui);
+            }
         });
-    }*/
-}
-
-class MainItem extends Item
-{
-    constructor(parent)
-    {
-        super();
-        this.parentItem = ko.observable(parent);
-        //this.makeSelectable();
-    }
-
-    makeDraggable()
-    {
-        $(".item").draggable({});
-    }
-}
-
-class ParentItem extends Item
-{
-    constructor()
-    {
-        super();
-        //this.makeSelectable();
+        $(".children").selectable();
     }
 }
 
 class MindMap
 {
-    constructor()
+    constructor(dataItem)
     {
+        this.data = dataItem;
+        this.downloadData = ko.observable();
         this.description = ko.observableArray(description);
-        this.parentItem = new ParentItem();
+        this.parentItem = new Item();
     }
 
-    makeSelectable()
+    getData(filename, json)
     {
-        $(document).ready(function () {
-            $(".parent-item").selectable();
-            $(".children").selectable();
-        });
+        let obj = {
+            Data: JSON.stringify(json),
+            Mime: "text/json",
+            FileName: filename
+        };
+
+        return obj;
     }
 
     toJSON()
@@ -118,23 +108,70 @@ class MindMap
             parentItem: ko.toJS(this.parentItem)
         };
 
+        let filename = "Mind_Map_json";
+        this.downloadData(this.getData(filename, json));
+
         return json;
     }
 }
 
+/***********************
+ *  Download
+ **********************/
+ko.bindingHandlers.BlobDownload = {
+    update: function(element, valueAccessor)
+    {
+        let value = ko.unwrap(valueAccessor());
+        if (typeof value.FileName === "string" && !value.FileName.IsEmpty)
+            element.setAttribute("download", value.FileName);
+
+        if (typeof value.Mime === "string" && !value.Mime.IsEmpty)
+            element.setAttribute("type", value.Mime);
+
+        element.setAttribute("href", URL.createObjectURL(new Blob([value.Data])));
+    }
+};
+
+/*ko.components.register("mm", {
+    viewModel: {
+        createViewModel: function (params, componentInfo) {
+            logDebug("Create View Model: ", params, componentInfo);
+
+            let firstModel = {
+                item: params.data
+            };
+
+            let secondModel = {
+                item: params.data
+            };
+
+            logDebug(firstModel.item);
+
+            switch (params.vm) {
+                case "firstModel":
+                    return firstModel;
+                case "secondModel":
+                    return secondModel;
+            }
+            //return firstModel;
+        }
+    },
+    template: { element: "mm-tpl" }
+});*/
+/*
 ko.components.register("mind-map", {
     viewModel: { instance: new MindMap() },
     template: { element: "mind-map-tpl" }
 });
 
-/*ko.components.register('parent-item', {
-    viewModel: function () {
-        this.parent = ko.observable(new ParentItem());
-        this.parent().name("New Parent");
+ko.components.register('parent-item', {
+    viewModel: function (params) {
+        this.parent = params.item;
+        logDebug(this.parent);
     },
     template: { element: "parent-item-tpl" }
-});
-
+});*/
+/*
 ko.components.register('children', {
     viewModel: function (params) {
         this.children = ko.observable(params);
@@ -146,7 +183,8 @@ ko.components.register('children', {
 /******************************
 *   Start Program
 ******************************/
-let mindMap = new MindMap();
+let data = new DataItem("data");
+let mindMap = new MindMap(data);
 
 $(document).ready(function(){
     ko.applyBindings(mindMap);

@@ -57,3 +57,7 @@ body {
 .mm-head .parent, .mm-head .children {
     width:50%;
 }
+
+.ui-selected {
+    color: red;
+}
