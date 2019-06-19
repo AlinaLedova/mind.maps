@@ -51,20 +51,20 @@ class DataItem
 
 class Item
 {
-    constructor()
+    constructor(x = 0, y = 0)
     {
         this.name = ko.observable(DefaultParentName);
         this.title = ko.observable(String.Empty);
         this.description = ko.observable(String.Empty);
-        this.positionX = ko.observable(0);
-        this.positionY = ko.observable(0);
+        this.positionX = ko.observable(x);
+        this.positionY = ko.observable(y);
         this.childItems = ko.observableArray([]);
         this.makeSelectable();
     }
 
     addChildItem()
     {
-        this.childItems.push(new Item());
+        this.childItems.push(new Item(0, 0));
     }
 
     makeSelectable()
@@ -87,7 +87,15 @@ class MindMap
         this.data = dataItem;
         this.downloadData = ko.observable();
         this.description = ko.observableArray(description);
-        this.parentItem = new Item();
+        this.parentItem = new Item(0, 0);
+        this.updateMindMap();
+    }
+
+    updateMindMap()
+    {
+        let json = this.data.data;
+
+        console.log("updateMindMap", json);
     }
 
     getData(filename, json)
@@ -95,7 +103,7 @@ class MindMap
         let obj = {
             Data: JSON.stringify(json),
             Mime: "text/json",
-            FileName: filename
+            FileName: `${filename}.json`
         };
 
         return obj;
@@ -108,8 +116,10 @@ class MindMap
             parentItem: ko.toJS(this.parentItem)
         };
 
-        let filename = "Mind_Map_json";
+        let filename = "data";
         this.downloadData(this.getData(filename, json));
+
+        logDebug(this.data.data);
 
         return json;
     }

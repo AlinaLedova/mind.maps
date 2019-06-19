@@ -37,3 +37,11 @@
 .i-icon-plus:before {
     content: "\E710";
 }
+
+.i-icon-download:before {
+    content: "\E896";
+}
+
+.i-icon-save:before {
+    content: "\E74E";
+}

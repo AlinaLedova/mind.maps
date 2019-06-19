@@ -18,8 +18,14 @@
     </div>
 </div>
 <div class="app-window container">
-    <!-- just idea
-    <input type="file" name="newFile" id="file">-->
+    <fieldset class="file-control">
+        <span class="btn-group">
+            <input type="file" class="btn btn-outline-success" id="file">
+            <button type="button" class="btn btn-outline-success" data-bind="click: ()=>updateMindMap()">Load</button>
+            <button class="btn btn-outline-success" data-bind="click: ()=>toJSON()"><i class="my-i i-icon-save"></i></button>
+        </span>
+        <span data-bind="if: downloadData()"><a class="btn btn-success" data-bind="BlobDownload: downloadData"><i class="my-i i-icon-download"></i></a></span>
+    </fieldset>
     <div class="row">
         <section class="reserved col-2">
             <div class="item-cloned">
@@ -31,12 +37,18 @@
                 <p data-bind="text: parentItem.name()"></p>
                 <button class="btn btn-outline-danger" data-bind="click: ()=>parentItem.addChildItem()"><i class="my-i i-icon-plus"></i></button>
             </div>
-            <div data-bind="foreach: { data: parentItem.childItems(), as: 'child' }">
-                <p data-bind="text: child.name()"></p>
+            <div class="children" data-bind="foreach: { data: parentItem.childItems(), as: 'child' }">
+                <div class="child">
+                    <p data-bind="text: child.name()"></p>
+                    <p data-bind="text: child.positionX()"></p>
+                    <svg style="position:absolute;">
+                        <line x1="0" y1="0" x2="30" y2="30" stroke="blue" />
+                    </svg>
+                </div>
             </div>
         </section>
     </div>
-    <button onclick="jsonData.getJson('data')">Open</button>
+
 </div>
 
 <!--
@@ -108,6 +120,8 @@
 <script>
     console.clear();
 
+
+
     /*$(".item").draggable({
         addClasses: false,
         appendTo: ".main-window",
@@ -134,9 +148,6 @@
             console.log("Out: ", event);
         }
     });*/
-
-    let jsonData = new DataItem("data");
-    //logDebug("JSON DATA: ", jsonData);
 
 </script>
 </body>

@@ -61,3 +61,7 @@ body {
 .ui-selected {
     color: red;
 }
+
+.file-control {
+    margin: 0 auto 20px;
+}
