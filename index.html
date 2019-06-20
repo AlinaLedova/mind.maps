@@ -17,6 +17,7 @@
         </header>
     </div>
 </div>
+<!-- APP WINDOW START -->
 <div class="app-window container">
     <fieldset class="file-control">
         <span class="btn-group">
@@ -32,85 +33,27 @@
                 <p class="c-cadetblue">Add Item</p>
             </div>
         </section>
+        <!-- WORKPLACE MIND MAP START -->
         <section class="main-window col-6">
             <div class="parent-item">
-                <p data-bind="text: parentItem.name()"></p>
-                <button class="btn btn-outline-danger" data-bind="click: ()=>parentItem.addChildItem()"><i class="my-i i-icon-plus"></i></button>
+                <p data-bind="text: parentItem().name()"></p>
+                <button class="btn btn-outline-danger" data-bind="click: ()=>parentItem().addChildItem()"><i class="my-i i-icon-plus"></i></button>
             </div>
-            <div class="children" data-bind="foreach: { data: parentItem.childItems(), as: 'child' }">
+            <div class="children" data-bind="foreach: { data: parentItem().childItems(), as: 'child' }">
                 <div class="child">
                     <p data-bind="text: child.name()"></p>
                     <p data-bind="text: child.positionX()"></p>
-                    <svg style="position:absolute;">
+                    <svg style="position:absolute;" data-bind="PrintLine: child">
                         <line x1="0" y1="0" x2="30" y2="30" stroke="blue" />
                     </svg>
                 </div>
             </div>
         </section>
+        <!-- WORKPLACE MIND MAP END -->
     </div>
-
 </div>
+<!-- APP WINDOW END -->
 
-<!--
-<div class="container" data-bind="component: {
-    name: 'mm',
-    params: {
-        data: $data,
-        vm: 'firstModel' } }"></div>
-
-<template id="mm-tpl">
-    <h1>MM TPL</h1>
-    <hr/>
-        <div class="parent-item" data-bind="component: {
-            name: 'mm',
-            params: {
-                data: item.parentItem,
-                vm: 'secondModel' }
-            }"></div>
-    <hr/>
-</template>
--->
-
-<template id="mind-map-tpl">
-    <div class="mm-head">
-        <legend class="">Parent: <span data-bind="text: parentItem.name(), event: { onload: parentItem.makeSelectable() }"></span></legend>
-    </div>
-    <div class="mm-body">
-        <div class="parent-item" data-bind="component: {
-            name: 'parent-item',
-            params: { item: parentItem }
-         }">
-            <!--<div class="parent">
-                <span data-bind="visible: parentItem.title()"><span data-bind="text: parentItem.title()"></span></span>
-                <span data-bind="hidden: parentItem.title()">Parent Item</span>
-            </div>-->
-        </div>
-        <div class="children" data-bind="foreach: { data: parentItem.childItems(), as: 'child' }">
-            <div class="child-item">
-                <span data-bind="visible: child.name(), text: child.name()"></span>
-            </div>
-        </div>
-    </div>
-    <div class="mm-footer">
-        <button class="btn btn-outline-danger" data-bind="click: ()=>parentItem.addChildItem(), event: { click: parentItem.makeSelectable() }"><i class="my-i i-icon-plus"></i></button>
-        <p><span data-bind="text: description()[0].appName"></span> ver.: <span data-bind="text: description()[1].appVersion"></span></p>
-    </div>
-</template>
-
-
-<template id="parent-item-tpl">
-    <div class="parent">
-        <span data-bind="visible: parent.title()"><span data-bind="text: parent.title()"></span></span>
-        <span data-bind="hidden: parent.title()">Parent Item</span>
-    </div>
-</template>
-<!--
-<template id="children-tpl">
-    <div class="child">
-        <p data-bind="text: console.log('CHILDREN: ')">Child</p>
-    </div>
-</template>
--->
 <script type="text/javascript" src="js/extended.js"></script>
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>

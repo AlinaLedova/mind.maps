@@ -87,15 +87,30 @@ class MindMap
         this.data = dataItem;
         this.downloadData = ko.observable();
         this.description = ko.observableArray(description);
-        this.parentItem = new Item(0, 0);
-        this.updateMindMap();
+        this.parentItem = ko.observable(new Item(0, 0));
     }
 
     updateMindMap()
     {
         let json = this.data.data;
 
-        console.log("updateMindMap", json);
+        this.description(json.description);
+        this.parentItem(this.fillItem(json.parentItem));
+        /*
+        this.parentItem.name(json.parentItem.name);
+        this.parentItem.positionX(json.parentItem.positionX);
+        this.parentItem.positionY(json.parentItem.positionY);
+        */
+        console.log("updateMindMap", this.parentItem().name(), this.parentItem().positionY());
+    }
+
+    fillItem(json)
+    {
+        let newItem = new Item(json.positionX, json.positionY);
+        newItem.name(json.name);
+
+        logDebug("fill Item: ", json, newItem.name());
+        return newItem;
     }
 
     getData(filename, json)
@@ -139,6 +154,15 @@ ko.bindingHandlers.BlobDownload = {
             element.setAttribute("type", value.Mime);
 
         element.setAttribute("href", URL.createObjectURL(new Blob([value.Data])));
+    }
+};
+
+ko.bindingHandlers.PrintLine = {
+    update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+        let value = ko.unwrap(valueAccessor());
+        let parentItem = bindingContext.$parent.parentItem();
+
+        //logDebug("PRINT LINE: ",value, parentItem, element);
     }
 };
 
@@ -189,6 +213,14 @@ ko.components.register('children', {
     },
     template: { element: "children-tpl" }
 });*/
+
+ko.components.register('parent-item', {
+    viewModel: function (params) {
+        this.vm = params.data;
+        logDebug(params);
+    },
+    template: { element: "parent-tpl" }
+});
 
 /******************************
 *   Start Program
