@@ -21,8 +21,10 @@
 <div class="app-window container">
     <fieldset class="file-control">
         <span class="btn-group">
-            <input type="file" class="btn btn-outline-success" id="file">
+            <input type="file" class="btn btn-outline-success" id="file" onchange="getFileName()">
             <button type="button" class="btn btn-outline-success" data-bind="click: ()=>updateMindMap()">Load</button>
+            <button class="btn btn-outline-success disabled">OR</button>
+            <button class="btn btn-outline-success">Create New</button>
             <button class="btn btn-outline-success" data-bind="click: ()=>toJSON()"><i class="my-i i-icon-save"></i></button>
         </span>
         <span data-bind="if: downloadData()"><a class="btn btn-success" data-bind="BlobDownload: downloadData"><i class="my-i i-icon-download"></i></a></span>

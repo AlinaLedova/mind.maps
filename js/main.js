@@ -1,7 +1,5 @@
 /*** Definitions ***/
 
-let dataName = "data";
-
 let description = [
     { appName: "Mind Maps" },
     { appVersion: "0.0.3" }
@@ -12,6 +10,7 @@ let description = [
 const debugMode = true;
 
 const DefaultParentName = "Item";
+const DefaultDataFileName = "data";
 const DefaultFileType = "json";
 
 function logDebug()
@@ -20,15 +19,31 @@ function logDebug()
         console.log(...arguments);
 }
 
+let reader = new FileReader();
+
+/*********************
+ *  Utility Functions
+ ********************/
+
+function getFileName()
+{
+    let file = document.getElementById("file").files[0];
+
+    reader.readAsBinaryString(file);
+
+    logDebug(reader.readyState);
+    //return file;
+}
+
 /*********************
  *
  ********************/
 
 class DataItem
 {
-    constructor(name)
+    constructor()
     {
-        this.name = name;
+        this.name = DefaultDataFileName;
         this.type = DefaultFileType;
         this.data = String.Empty;
         this.getJson(this.name);
@@ -41,11 +56,6 @@ class DataItem
             this.data = await response.json();
             //logDebug("GET JSON: ", this.data);
         });
-    }
-
-    updateJson()
-    {
-
     }
 }
 
@@ -73,7 +83,7 @@ class Item
         $(".parent-item").selectable({
             selected: function (event, ui) {
                 let children = document.getElementsByClassName("child-item");
-                logDebug(event, ui);
+                //logDebug(event, ui);
             }
         });
         $(".children").selectable();
@@ -101,7 +111,7 @@ class MindMap
         this.parentItem.positionX(json.parentItem.positionX);
         this.parentItem.positionY(json.parentItem.positionY);
         */
-        console.log("updateMindMap", this.parentItem().name(), this.parentItem().positionY());
+        //console.log("updateMindMap", this.parentItem().name(), this.parentItem().positionY());
     }
 
     fillItem(json)
@@ -109,7 +119,7 @@ class MindMap
         let newItem = new Item(json.positionX, json.positionY);
         newItem.name(json.name);
 
-        logDebug("fill Item: ", json, newItem.name());
+        //logDebug("fill Item: ", json, newItem.name());
         return newItem;
     }
 
@@ -134,7 +144,7 @@ class MindMap
         let filename = "data";
         this.downloadData(this.getData(filename, json));
 
-        logDebug(this.data.data);
+        //logDebug(this.data.data);
 
         return json;
     }
