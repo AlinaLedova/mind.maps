@@ -39,6 +39,11 @@ body {
     border: 1px solid #454545;
 }
 
+.main-window {
+    width: 600px;
+    height: 600px;
+}
+
 .item, .item-cloned {
     z-index: 10;
     border: 1px solid #999999;

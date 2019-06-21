@@ -2,7 +2,7 @@
 
 let description = [
     { appName: "Mind Maps" },
-    { appVersion: "0.0.4" }
+    { appVersion: "0.0.5" }
 ];
 
 /*** Configuration ***/
@@ -112,8 +112,6 @@ class MindMap
         let json = JSON.parse(reader.result);
         this.description(json.description);
         this.parentItem(this.fillItem(json.parentItem));
-
-
         this.created(true);
     }
 
@@ -121,8 +119,18 @@ class MindMap
     {
         let newItem = new Item(json.positionX, json.positionY);
         newItem.name(json.name);
+        newItem.title(json.title);
+        newItem.description(json.title);
 
-        //logDebug("fill Item: ", json, newItem.name());
+        if (json.childItems.length > 0)
+        {
+            for (let i = 0; i < json.childItems.length; i++)
+            {
+                let child = this.fillItem(json.childItems[i]);
+                newItem.childItems.push(child);
+            }
+        }
+
         return newItem;
     }
 
@@ -147,8 +155,6 @@ class MindMap
         let filename = "data";
         this.downloadData(this.getData(filename, json));
 
-        //logDebug(this.data.data);
-
         return json;
     }
 }
@@ -169,6 +175,10 @@ ko.bindingHandlers.BlobDownload = {
         element.setAttribute("href", URL.createObjectURL(new Blob([value.Data])));
     }
 };
+
+/**********************
+ *  Custom Bindings
+ *********************/
 
 ko.bindingHandlers.PrintLine = {
     update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -226,14 +236,6 @@ ko.components.register('children', {
     },
     template: { element: "children-tpl" }
 });*/
-
-ko.components.register('parent-item', {
-    viewModel: function (params) {
-        this.vm = params.data;
-        logDebug(params);
-    },
-    template: { element: "parent-tpl" }
-});
 
 /******************************
 *   Start Program
