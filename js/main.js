@@ -2,14 +2,14 @@
 
 let description = [
     { appName: "Mind Maps" },
-    { appVersion: "0.0.3" }
+    { appVersion: "0.0.4" }
 ];
 
 /*** Configuration ***/
 
 const debugMode = true;
 
-const DefaultParentName = "Item";
+const DefaultItemName = "Item";
 const DefaultDataFileName = "data";
 const DefaultFileType = "json";
 
@@ -25,14 +25,15 @@ let reader = new FileReader();
  *  Utility Functions
  ********************/
 
-function getFileName()
+let fileLoaded = ko.observable(false);
+
+function getFile()
 {
     let file = document.getElementById("file").files[0];
+    reader.readAsText(file);
 
-    reader.readAsBinaryString(file);
-
-    logDebug(reader.readyState);
-    //return file;
+    if (reader.readyState > 0)
+        fileLoaded(true);
 }
 
 /*********************
@@ -63,7 +64,7 @@ class Item
 {
     constructor(x = 0, y = 0)
     {
-        this.name = ko.observable(DefaultParentName);
+        this.name = ko.observable(DefaultItemName);
         this.title = ko.observable(String.Empty);
         this.description = ko.observable(String.Empty);
         this.positionX = ko.observable(x);
@@ -94,24 +95,26 @@ class MindMap
 {
     constructor(dataItem)
     {
+        this.created = ko.observable(false);
         this.data = dataItem;
         this.downloadData = ko.observable();
         this.description = ko.observableArray(description);
         this.parentItem = ko.observable(new Item(0, 0));
     }
 
+    createCleanMindMap()
+    {
+        this.created(true);
+    }
+
     updateMindMap()
     {
-        let json = this.data.data;
-
+        let json = JSON.parse(reader.result);
         this.description(json.description);
         this.parentItem(this.fillItem(json.parentItem));
-        /*
-        this.parentItem.name(json.parentItem.name);
-        this.parentItem.positionX(json.parentItem.positionX);
-        this.parentItem.positionY(json.parentItem.positionY);
-        */
-        //console.log("updateMindMap", this.parentItem().name(), this.parentItem().positionY());
+
+
+        this.created(true);
     }
 
     fillItem(json)
@@ -235,7 +238,7 @@ ko.components.register('parent-item', {
 /******************************
 *   Start Program
 ******************************/
-let data = new DataItem("data");
+let data = new DataItem();
 let mindMap = new MindMap(data);
 
 $(document).ready(function(){
