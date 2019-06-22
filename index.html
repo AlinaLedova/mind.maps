@@ -42,13 +42,8 @@
                 <button class="btn btn-outline-danger" data-bind="click: ()=>parentItem().addChildItem()"><i class="my-i i-icon-plus"></i></button>
             </div>
             <div class="children" data-bind="foreach: { data: parentItem().childItems(), as: 'child' }">
-                <div class="child">
-                    <p data-bind="text: child.name()"></p>
-                    <p data-bind="text: child.positionX()"></p>
-                    <svg style="position:absolute;" data-bind="PrintLine: child">
-                        <line x1="0" y1="0" x2="30" y2="30" stroke="blue" />
-                    </svg>
-                </div>
+                <!-- ko template: {name: 'child-tpl', data: child}-->
+                <!-- /ko -->
             </div>
         </section>
         <!-- WORKPLACE MIND MAP END -->
@@ -57,6 +52,23 @@
 <!-- APP WINDOW END -->
 
 <!-- TEMPLATES START -->
+<template id="child-tpl">
+    <div class="child">
+        <p data-bind="text: $index()"></p>
+        <!--<p data-bind="text: child.name()"></p>
+        <p data-bind="text: child.positionX()"></p>-->
+        <button class="btn small btn-outline-danger" data-bind="click: ()=>child.addChildItem()"><i class="my-i i-icon-plus"></i></button>
+        <!--<svg style="position:absolute;" data-bind="PrintLine: child">
+            <line x1="0" y1="0" x2="30" y2="30" stroke="blue" />
+        </svg>-->
+        <div data-bind="if: child.childItems().length > 0">
+            <div data-bind="foreach: { data: child.childItems(), as: 'child' }">
+                <!-- ko template: {name: 'child-tpl', data: child }-->
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+</template>
 <!-- TEMPLATES END -->
 
 <script type="text/javascript" src="js/extended.js"></script>

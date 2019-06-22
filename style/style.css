@@ -70,3 +70,11 @@ body {
 .file-control {
     margin: 0 auto 20px;
 }
+
+.child svg line {
+    z-index: 110;
+}
+
+.child button {
+    z-index: 10;
+}

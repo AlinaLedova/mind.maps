@@ -47,17 +47,17 @@ class DataItem
         this.name = DefaultDataFileName;
         this.type = DefaultFileType;
         this.data = String.Empty;
-        this.getJson(this.name);
+        //this.getJson(this.name);
     }
 
-    getJson(name)
+    /*getJson(name)
     {
         fetch(`${name}.${this.type}`).then(async (response) => {
             if (!response.ok) throw (`Response not OK: , ${response.status}, ${response.statusText}`);
             this.data = await response.json();
             //logDebug("GET JSON: ", this.data);
         });
-    }
+    }*/
 }
 
 class Item
@@ -183,7 +183,7 @@ ko.bindingHandlers.BlobDownload = {
 ko.bindingHandlers.PrintLine = {
     update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
         let value = ko.unwrap(valueAccessor());
-        let parentItem = bindingContext.$parent.parentItem();
+        //let parentItem = bindingContext.$parent.parentItem();
 
         //logDebug("PRINT LINE: ",value, parentItem, element);
     }
