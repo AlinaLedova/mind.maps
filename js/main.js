@@ -92,13 +92,8 @@ class Item
 
     makeDraggable()
     {
-        $(".parent-item").draggable({
-
-        });
-
-        $(".child").draggable({
-
-        });
+        $(".parent-item").draggable();
+        $(".child").draggable();
     }
 }
 
@@ -199,6 +194,32 @@ ko.bindingHandlers.PrintLine = {
         //let parentItem = bindingContext.$parent.parentItem();
 
         //logDebug("PRINT LINE: ",value, parentItem, element);
+    }
+};
+
+ko.bindingHandlers.DragNDrop = {
+    update: function(element, valueAccessor) {
+        let value = ko.unwrap(valueAccessor());
+
+        $(".parent-item").draggable({
+            stop: function(event, ui) {
+                let posX = ui.position.left;
+                value.positionX(posX);
+
+                let posY = ui.position.top;
+                value.positionY(posY);
+            }
+        });
+
+        $(".child").draggable({
+            stop: function(event, ui) {
+                let posX = ui.position.left;
+                value.positionX(posX);
+
+                let posY = ui.position.top;
+                value.positionY(posY);
+            }
+        });
     }
 };
 
