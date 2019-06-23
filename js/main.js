@@ -203,21 +203,29 @@ ko.bindingHandlers.DragNDrop = {
 
         $(".parent-item").draggable({
             stop: function(event, ui) {
-                let posX = ui.position.left;
-                value.positionX(posX);
+                if (ui.helper[0] === element)
+                {
+                    let posX = ui.position.left;
+                    value.positionX(posX);
 
-                let posY = ui.position.top;
-                value.positionY(posY);
+                    let posY = ui.position.top;
+                    value.positionY(posY);
+                }
+
             }
         });
 
         $(".child").draggable({
             stop: function(event, ui) {
-                let posX = ui.position.left;
-                value.positionX(posX);
+                if (ui.helper[0] === element)
+                {
+                    let posX = ui.position.left;
+                    value.positionX(posX);
 
-                let posY = ui.position.top;
-                value.positionY(posY);
+                    let posY = ui.position.top;
+                    value.positionY(posY);
+                }
+                logDebug(ui.helper);
             }
         });
     }
