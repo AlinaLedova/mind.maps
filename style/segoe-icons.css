@@ -18,6 +18,18 @@
     line-height:1
 }
 
+.my-i-sm {
+    font-family: "Segoe MDL2 Assets";
+    -moz-osx-font-smoothing:grayscale;
+    -webkit-font-smoothing:antialiased;
+    display:inline-block;
+    font-style:normal;
+    font-variant:normal;
+    text-rendering:auto;
+    font-size:50%;
+    line-height: 50%;
+}
+
 /*
 *   Colors
 */
@@ -44,4 +56,8 @@
 
 .i-icon-save:before {
     content: "\E74E";
+}
+
+.i-icon-pencil:before {
+    content: "\E70F";
 }
