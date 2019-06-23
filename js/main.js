@@ -70,12 +70,13 @@ class Item
         this.positionX = ko.observable(x);
         this.positionY = ko.observable(y);
         this.childItems = ko.observableArray([]);
-        this.makeSelectable();
+
     }
 
     addChildItem()
     {
         this.childItems.push(new Item(0, 0));
+        this.makeDraggable();
     }
 
     makeSelectable()
@@ -89,6 +90,17 @@ class Item
         });
         $(".children").selectable();
     }
+
+    makeDraggable()
+    {
+        $(".parent-item").draggable({
+
+        });
+
+        $(".child").draggable({
+
+        });
+    }
 }
 
 class MindMap
@@ -100,6 +112,7 @@ class MindMap
         this.downloadData = ko.observable();
         this.description = ko.observableArray(description);
         this.parentItem = ko.observable(new Item(0, 0));
+        this.parentItem().makeDraggable();
     }
 
     createCleanMindMap()
