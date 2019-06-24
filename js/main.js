@@ -105,12 +105,12 @@ class MindMap
         this.data = dataItem;
         this.downloadData = ko.observable();
         this.description = ko.observableArray(description);
-        this.parentItem = ko.observable(new Item(0, 0));
+        this.rootItem = ko.observable(new Item(0, 0));
     }
 
     createCleanMindMap()
     {
-        this.parentItem().makeDraggable();
+        this.rootItem().makeDraggable();
         this.created(true);
     }
 
@@ -118,8 +118,8 @@ class MindMap
     {
         let json = JSON.parse(reader.result);
         this.description(json.description);
-        this.parentItem(this.fillItem(json.parentItem));
-        this.parentItem().makeDraggable();
+        this.rootItem(this.fillItem(json.rootItem));
+        this.rootItem().makeDraggable();
         this.created(true);
     }
 
@@ -157,7 +157,7 @@ class MindMap
     {
         let json = {
             description: this.description(),
-            parentItem: ko.toJS(this.parentItem)
+            rootItem: ko.toJS(this.rootItem)
         };
 
         let filename = "data";
@@ -191,9 +191,9 @@ ko.bindingHandlers.BlobDownload = {
 ko.bindingHandlers.PrintLine = {
     update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
         let value = ko.unwrap(valueAccessor());
-        //let parentItem = bindingContext.$parent.parentItem();
+        //let rootItem = bindingContext.$parent.rootItem();
 
-        //logDebug("PRINT LINE: ",value, parentItem, element);
+        //logDebug("PRINT LINE: ",value, rootItem, element);
     }
 };
 
@@ -225,7 +225,6 @@ ko.bindingHandlers.DragNDrop = {
                     let posY = ui.position.top;
                     value.positionY(posY);
                 }
-                logDebug(ui.helper);
             }
         });
     }

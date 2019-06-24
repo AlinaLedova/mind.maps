@@ -37,12 +37,12 @@
         </section>
         <!-- WORKPLACE MIND MAP START -->
         <section class="main-window col-6">
-            <div class="parent-item" data-bind="DragNDrop: parentItem(), style: { top: parentItem().positionY(), left: parentItem().positionX() }">
-                <p data-bind="text: parentItem().name()"></p>
-                <button class="mm-button" data-bind="click: ()=>parentItem().addChildItem()"><i class="my-i-sm i-icon-plus"></i></button>
+            <div class="root-item" data-bind="DragNDrop: rootItem(), style: { top: rootItem().positionY(), left: rootItem().positionX() }">
+                <p data-bind="text: rootItem().name()"></p>
+                <button class="mm-button" data-bind="click: ()=>rootItem().addChildItem()"><i class="my-i-sm i-icon-plus"></i></button>
                 <button class="mm-button" data-bind=""><i class="my-i-sm i-icon-pencil"></i></button>
             </div>
-            <div class="children" data-bind="foreach: { data: parentItem().childItems(), as: 'child' }">
+            <div class="children" data-bind="foreach: { data: rootItem().childItems(), as: 'child' }">
                 <!-- ko template: {name: 'child-tpl', data: child}-->
                 <!-- /ko -->
             </div>

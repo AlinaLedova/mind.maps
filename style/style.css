@@ -71,7 +71,7 @@ body {
     margin: 0 auto 20px;
 }
 
-.parent-item {
+.root-item {
     min-width: 100px;
     max-width: 300px;
     width: 100px;
@@ -92,7 +92,7 @@ body {
     line-height: 0;
 }
 
-.parent-item p {
+.root-item p {
     display: inline-block;
 }
 
