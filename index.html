@@ -42,10 +42,7 @@
                 <button class="mm-button" data-bind="click: ()=>rootItem().addChildItem()"><i class="my-i-sm i-icon-plus"></i></button>
                 <button class="mm-button" data-bind=""><i class="my-i-sm i-icon-pencil"></i></button>
             </div>
-            <div class="children" data-bind="foreach: { data: rootItem().childItems(), as: 'child' }">
-                <!-- ko template: {name: 'child-tpl', data: child}-->
-                <!-- /ko -->
-            </div>
+            <div class="children" data-bind="template: { name: 'child-tpl', foreach: rootItem().childItems(), as: 'child' }"></div>
         </section>
         <!-- WORKPLACE MIND MAP END -->
     </div>

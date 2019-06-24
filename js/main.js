@@ -78,6 +78,22 @@ class Item
         this.makeDraggable();
     }
 
+    static ItemFromJson(json)
+    {
+        let newItem = new Item(json.positionX, json.positionY);
+        newItem.name(json.name);
+        newItem.title(json.title);
+        newItem.description(json.title);
+
+        for (let i = 0; i < json.childItems.length; i++)
+        {
+            let child = Item.ItemFromJson(json.childItems[i]);
+            newItem.childItems.push(child);
+        }
+
+        return newItem;
+    }
+
     makeSelectable()
     {
         // need find event except selected
@@ -118,28 +134,9 @@ class MindMap
     {
         let json = JSON.parse(reader.result);
         this.description(json.description);
-        this.rootItem(this.fillItem(json.rootItem));
+        this.rootItem(Item.ItemFromJson(json.rootItem));
         this.rootItem().makeDraggable();
         this.created(true);
-    }
-
-    fillItem(json)
-    {
-        let newItem = new Item(json.positionX, json.positionY);
-        newItem.name(json.name);
-        newItem.title(json.title);
-        newItem.description(json.title);
-
-        if (json.childItems.length > 0)
-        {
-            for (let i = 0; i < json.childItems.length; i++)
-            {
-                let child = this.fillItem(json.childItems[i]);
-                newItem.childItems.push(child);
-            }
-        }
-
-        return newItem;
     }
 
     getData(filename, json)
@@ -201,7 +198,7 @@ ko.bindingHandlers.DragNDrop = {
     update: function(element, valueAccessor) {
         let value = ko.unwrap(valueAccessor());
 
-        $(".parent-item").draggable({
+        $(".root-item").draggable({
             stop: function(event, ui) {
                 if (ui.helper[0] === element)
                 {
@@ -219,6 +216,7 @@ ko.bindingHandlers.DragNDrop = {
             stop: function(event, ui) {
                 if (ui.helper[0] === element)
                 {
+                    logDebug(ui.position);
                     let posX = ui.position.left;
                     value.positionX(posX);
 
