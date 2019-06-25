@@ -75,7 +75,6 @@ class Item
     addChildItem()
     {
         this.childItems.push(new Item(0, 0));
-        this.makeDraggable();
     }
 
     static ItemFromJson(json)
@@ -105,12 +104,6 @@ class Item
         });
         $(".children").selectable();
     }
-
-    makeDraggable()
-    {
-        $(".parent-item").draggable();
-        $(".child").draggable();
-    }
 }
 
 class MindMap
@@ -126,7 +119,6 @@ class MindMap
 
     createCleanMindMap()
     {
-        this.rootItem().makeDraggable();
         this.created(true);
     }
 
@@ -135,7 +127,6 @@ class MindMap
         let json = JSON.parse(reader.result);
         this.description(json.description);
         this.rootItem(Item.ItemFromJson(json.rootItem));
-        this.rootItem().makeDraggable();
         this.created(true);
     }
 
@@ -195,34 +186,29 @@ ko.bindingHandlers.PrintLine = {
 };
 
 ko.bindingHandlers.DragNDrop = {
-    update: function(element, valueAccessor) {
+    init: function (element, valueAccessor) {
         let value = ko.unwrap(valueAccessor());
+        element.setAttribute("style", `top: ${value.positionY()}px; left: ${value.positionX()}px`);
+    },
+    update: function(element, valueAccessor) {
 
         $(".root-item").draggable({
             stop: function(event, ui) {
-                if (ui.helper[0] === element)
-                {
-                    let posX = ui.position.left;
-                    value.positionX(posX);
+                let posX = ui.position.left;
+                valueAccessor().positionX(posX);
 
-                    let posY = ui.position.top;
-                    value.positionY(posY);
-                }
-
+                let posY = ui.position.top;
+                valueAccessor().positionY(posY);
             }
         });
 
         $(".child").draggable({
             stop: function(event, ui) {
-                if (ui.helper[0] === element)
-                {
-                    logDebug(ui.position);
-                    let posX = ui.position.left;
-                    value.positionX(posX);
+                let posX = ui.position.left;
+                valueAccessor().positionX(posX);
 
-                    let posY = ui.position.top;
-                    value.positionY(posY);
-                }
+                let posY = ui.position.top;
+                valueAccessor().positionY(posY);
             }
         });
     }
