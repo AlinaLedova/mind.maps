@@ -188,21 +188,11 @@ ko.bindingHandlers.PrintLine = {
 ko.bindingHandlers.DragNDrop = {
     init: function (element, valueAccessor) {
         let value = ko.unwrap(valueAccessor());
-        element.setAttribute("style", `top: ${value.positionY()}px; left: ${value.positionX()}px`);
+        element.style.top = `${value.positionY()}px`;
+        element.style.left = `${value.positionX()}px`;
     },
     update: function(element, valueAccessor) {
-
-        $(".root-item").draggable({
-            stop: function(event, ui) {
-                let posX = ui.position.left;
-                valueAccessor().positionX(posX);
-
-                let posY = ui.position.top;
-                valueAccessor().positionY(posY);
-            }
-        });
-
-        $(".child").draggable({
+        $(element).draggable({
             stop: function(event, ui) {
                 let posX = ui.position.left;
                 valueAccessor().positionX(posX);
@@ -213,54 +203,6 @@ ko.bindingHandlers.DragNDrop = {
         });
     }
 };
-
-/*ko.components.register("mm", {
-    viewModel: {
-        createViewModel: function (params, componentInfo) {
-            logDebug("Create View Model: ", params, componentInfo);
-
-            let firstModel = {
-                item: params.data
-            };
-
-            let secondModel = {
-                item: params.data
-            };
-
-            logDebug(firstModel.item);
-
-            switch (params.vm) {
-                case "firstModel":
-                    return firstModel;
-                case "secondModel":
-                    return secondModel;
-            }
-            //return firstModel;
-        }
-    },
-    template: { element: "mm-tpl" }
-});*/
-/*
-ko.components.register("mind-map", {
-    viewModel: { instance: new MindMap() },
-    template: { element: "mind-map-tpl" }
-});
-
-ko.components.register('parent-item', {
-    viewModel: function (params) {
-        this.parent = params.item;
-        logDebug(this.parent);
-    },
-    template: { element: "parent-item-tpl" }
-});*/
-/*
-ko.components.register('children', {
-    viewModel: function (params) {
-        this.children = ko.observable(params);
-        //children = params;
-    },
-    template: { element: "children-tpl" }
-});*/
 
 /******************************
 *   Start Program
