@@ -168,7 +168,7 @@ ko.bindingHandlers.BlobDownload = {
 ko.bindingHandlers.PrintLine = {
     update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
         let value = ko.unwrap(valueAccessor());
-
+        element.innerHTML = String.Empty;
         for (let i = 0; i < value.childItems().length; i++)
         {
             let svg = document.createElement("svg");
