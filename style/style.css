@@ -120,3 +120,11 @@ body {
 .child-item button {
     z-index: 150;
 }
+
+.item-editor {
+    z-index:50;
+}
+
+.item-description {
+
+}

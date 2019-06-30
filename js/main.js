@@ -85,7 +85,7 @@ class Item
         let newItem = new Item(json.positionX, json.positionY);
         newItem.name(json.name);
         newItem.title(json.title);
-        newItem.description(json.title);
+        newItem.description(json.description);
 
         for (let i = 0; i < json.childItems.length; i++)
         {

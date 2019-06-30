@@ -43,11 +43,31 @@
                 <line x1="10" y1="20" x2="30" y2="40" stroke="#cccccc"></line>
             </svg>
             <div class="root-item" data-bind="DragNDrop: rootItem()">
-                <p data-bind="text: rootItem().name()"></p>
+                <p data-bind="text: rootItem().name()" ondblclick="logDebug(this)"></p>
                 <button class="mm-button" data-bind="click: ()=>rootItem().addChildItem()"><i class="my-i-sm i-icon-plus"></i></button>
                 <button class="mm-button" data-bind=""><i class="my-i-sm i-icon-pencil"></i></button>
             </div>
             <div class="children" data-bind="template: { name: 'child-tpl', foreach: rootItem().childItems(), as: 'child' }"></div>
+        </section>
+        <section class="col-4 item-editor">
+            <fieldset class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Item Name: </span>
+                </div>
+                <input class="form-control" data-bind="textInput: rootItem().name">
+            </fieldset>
+            <fieldset class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Item Title: </span>
+                </div>
+                <input class="form-control" data-bind="textInput: rootItem().title">
+            </fieldset>
+            <fieldset class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Item Description: </span>
+                </div>
+                <input class="form-control item-description" data-bind="textInput: rootItem().description">
+            </fieldset>
         </section>
         <!-- WORKPLACE MIND MAP END -->
     </div>
