@@ -12,7 +12,9 @@ const debugMode = true;
 const DefaultItemName = "Item";
 const DefaultDataFileName = "data";
 const DefaultFileType = "json";
-const DefaultLinesColor = "#CC0000"
+const DefaultLinesColor = "#CC0000";
+const DefaultItemHalfWidth = 50;
+const DefaultItemHalfHeight = 25;
 
 function logDebug()
 {
@@ -169,23 +171,18 @@ ko.bindingHandlers.PrintLine = {
     update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
         let value = ko.unwrap(valueAccessor());
         element.innerHTML = String.Empty;
+
         for (let i = 0; i < value.childItems().length; i++)
         {
-            let svg = document.createElement("svg");
             let line = document.createElement("line");
-            line.setAttribute("x1", value.positionX());
-            line.setAttribute("y1", value.positionY());
-            line.setAttribute("x2", value.childItems()[i].positionX());
-            line.setAttribute("y2", value.childItems()[i].positionY());
-            line.setAttribute("stroke", "red");
-            element.style.width = "1000px";
-            element.style.height = "1000px";
-            logDebug("PRINT LINE: ", element, value);
-            svg.appendChild(line);
-            element.innerHTML += svg.innerHTML;
+            line.setAttribute("x1", value.positionX() + DefaultItemHalfWidth);
+            line.setAttribute("y1", value.positionY() + DefaultItemHalfHeight);
+            line.setAttribute("x2", value.childItems()[i].positionX() + DefaultItemHalfWidth);
+            line.setAttribute("y2", value.childItems()[i].positionY() + DefaultItemHalfHeight);
+            line.setAttribute("stroke", DefaultLinesColor);
+
+            element.innerHTML += line.outerHTML;
         }
-
-
     }
 };
 

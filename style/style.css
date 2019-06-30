@@ -55,14 +55,6 @@ body {
     cursor: default;
 }
 
-.mm-head {
-
-}
-
-/*.mm-head .parent, .mm-head .children {
-    width:50%;
-}*/
-
 .ui-selected {
     color: red;
 }
@@ -72,6 +64,8 @@ body {
 }
 
 .root-item {
+    padding: 5px;
+    font-weight: bold;
     min-width: 100px;
     max-width: 300px;
     width: 100px;
@@ -99,6 +93,7 @@ body {
 
 .child-item {
     position:absolute;
+    padding: 5px;
     margin: 0;
     min-width: 100px;
     max-width: 300px;
@@ -110,11 +105,11 @@ body {
     z-index: 50;
 }
 
-.children svg {
+.main-window svg {
     position: absolute;
     z-index: 1;
-    /*width:0;
-    height:0;*/
+    width: 1000px;
+    height: 1000px;
     top:0;
 }
 
