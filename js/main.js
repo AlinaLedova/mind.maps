@@ -73,6 +73,7 @@ class Item
         this.positionX = ko.observable(x);
         this.positionY = ko.observable(y);
         this.childItems = ko.observableArray([]);
+        this.editing = ko.observable(false);
     }
 
     addChildItem()
@@ -86,6 +87,7 @@ class Item
         newItem.name(json.name);
         newItem.title(json.title);
         newItem.description(json.description);
+        newItem.editing(json.editing);
 
         for (let i = 0; i < json.childItems.length; i++)
         {
@@ -94,6 +96,11 @@ class Item
         }
 
         return newItem;
+    }
+
+    changeEditing(editing)
+    {
+         this.editing(editing);
     }
 }
 

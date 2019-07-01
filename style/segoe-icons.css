@@ -61,3 +61,7 @@
 .i-icon-pencil:before {
     content: "\E70F";
 }
+
+.i-close:before {
+    content: "\E711";
+}

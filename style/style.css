@@ -122,7 +122,10 @@ body {
 }
 
 .item-editor {
-    z-index:50;
+    z-index: 50;
+    position: absolute;
+    right: 0;
+    border: 1px solid #2b2b2b;
 }
 
 .item-description {
