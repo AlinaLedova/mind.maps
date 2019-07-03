@@ -2,7 +2,7 @@
 
 let description = [
     { appName: "Mind Maps" },
-    { appVersion: "0.0.5" }
+    { appVersion: "0.0.6" }
 ];
 
 /*** Configuration ***/

@@ -10,15 +10,8 @@
     <link>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <header class="col-12">
-            <h1 id="head"><span data-bind="text: description()[0].appName"></span> <span class="small">version: </span><span data-bind="text: description()[1].appVersion"></span></h1>
-        </header>
-    </div>
-</div>
 <!-- APP WINDOW START -->
-<div class="app-window container">
+<div class="app-window container-fluid">
     <!-- APP CONTROL START -->
     <fieldset class="file-control">
         <span class="btn-group">
@@ -43,9 +36,9 @@
                 <line x1="10" y1="20" x2="30" y2="40" stroke="#cccccc"></line>
             </svg>
             <div class="root-item" data-bind="DragNDrop: rootItem()">
-                <p data-bind="text: rootItem().name()" ondblclick="logDebug(this)"></p>
                 <button class="mm-button" data-bind="click: ()=>rootItem().addChildItem()"><i class="my-i-sm i-icon-plus"></i></button>
                 <button class="mm-button" data-bind="click: ()=>rootItem().changeEditing(true)"><i class="my-i-sm i-icon-pencil"></i></button>
+                <p data-bind="text: rootItem().name()"></p>
             </div>
             <div class="children" data-bind="template: { name: 'child-tpl', foreach: rootItem().childItems(), as: 'child' }"></div>
             <!-- ITEM EDITOR START -->
