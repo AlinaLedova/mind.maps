@@ -40,7 +40,9 @@
                 <button class="mm-button" data-bind="click: ()=>rootItem().changeEditing(true)"><i class="my-i-sm i-icon-pencil"></i></button>
                 <p data-bind="text: rootItem().name()"></p>
             </div>
-            <div class="children" data-bind="template: { name: 'child-tpl', foreach: rootItem().childItems(), as: 'child' }"></div>
+            <div class="children"  data-bind="template: { name: 'child-tpl', foreach: rootItem().childItems(), as: 'child' }">
+
+            </div>
             <!-- ITEM EDITOR START -->
             <!-- ko if: rootItem().editing -->
             <section class="col-4 item-editor" data-bind="template: { name: 'item-editor-tpl', data: rootItem() }"></section>
@@ -56,6 +58,12 @@
 <template id="child-tpl">
     <svg data-bind="PrintLine: child"></svg>
     <div class="child-item" data-bind="DragNDrop: child">
+        <!-- ko if: $parent.removeChildItem -->
+            <button class="mm-button" data-bind="click: ()=>$parent.removeChildItem(child)"><i class="my-i-sm i-close"></i></button>
+        <!-- /ko -->
+        <!-- ko ifnot: $parent.removeChildItem -->
+            <button class="mm-button" data-bind="click: ()=>$root.rootItem().removeChildItem(child)"><i class="my-i-sm i-close"></i></button>
+        <!-- /ko -->
         <button class="mm-button" data-bind="click: ()=>child.addChildItem()"><i class="my-i-sm i-icon-plus"></i></button>
         <button class="mm-button" data-bind="click: ()=>child.changeEditing(true)"><i class="my-i-sm i-icon-pencil"></i></button>
         <p data-bind="text: child.name()"></p>
@@ -99,33 +107,6 @@
 <script type="text/javascript" src="js/main.js"></script>
 <script>
     console.clear();
-
-    /*$(".item").draggable({
-        addClasses: false,
-        appendTo: ".main-window",
-        connectToSortable: ".main-window",
-        start: function(event, ui)
-        {
-            console.log(ui);
-        }
-    });
-
-    $(".main-window").droppable({
-        accept: ".item",
-        drop: function (event, ui)
-        {
-            let target = event.target;
-            target.setAttribute("style", "background-color:#000000");
-            let tag = ui.draggable[0];
-            //console.log(tag);
-        },
-        out: function (event, ui)
-        {
-            let target = event.target;
-            target.removeAttribute("style");
-            console.log("Out: ", event);
-        }
-    });*/
 
 </script>
 </body>

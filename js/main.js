@@ -2,7 +2,7 @@
 
 let description = [
     { appName: "Mind Maps" },
-    { appVersion: "0.0.6" }
+    { appVersion: "0.9.0" }
 ];
 
 /*** Configuration ***/
@@ -50,17 +50,7 @@ class DataItem
         this.name = DefaultDataFileName;
         this.type = DefaultFileType;
         this.data = String.Empty;
-        //this.getJson(this.name);
     }
-
-    /*getJson(name)
-    {
-        fetch(`${name}.${this.type}`).then(async (response) => {
-            if (!response.ok) throw (`Response not OK: , ${response.status}, ${response.statusText}`);
-            this.data = await response.json();
-            //logDebug("GET JSON: ", this.data);
-        });
-    }*/
 }
 
 class Item
@@ -79,6 +69,11 @@ class Item
     addChildItem()
     {
         this.childItems.push(new Item(0, 0));
+    }
+
+    removeChildItem(instanceItem)
+    {
+        this.childItems.remove(instanceItem);
     }
 
     static ItemFromJson(json)
